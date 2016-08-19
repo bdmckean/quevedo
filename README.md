@@ -7,7 +7,9 @@ https://github.com/amplab/spark-ec2
 
 ### spin up spark cluster
 export AWS_SECRET_ACCESS_KEY=...
+
 export AWS_ACCESS_KEY_ID=.....
+
 ./spark-ec2 --key-pair=awskey --identity-file=awskey.pem --region=us-west-1 --zone=us-west-1a launch my-spark-cluster
 
 ###
