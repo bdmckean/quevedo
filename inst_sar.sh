@@ -10,7 +10,7 @@
 
 #!/bin/bash
 
-
+# FIXME -- need to automatically generate IP addresses for machines in cluster
 
 machines=(
     172.31.23.33

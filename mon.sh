@@ -1,7 +1,8 @@
 #!/bin/bash
 
+# Sample interval for running sar (seconds)
 I=10
-#D=10
+# Duration for running sar -- normally undefined so run until killed
 D=
 
 

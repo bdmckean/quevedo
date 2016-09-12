@@ -45,7 +45,7 @@ else
     TESTPATH="/root/HiBench/workloads/$TEST/spark/java/bin/run.sh"
 fi
 
-
+#fixme -- automate loading of IP addresses for cluster
 machines=(
     172.31.23.33
     172.31.27.36
