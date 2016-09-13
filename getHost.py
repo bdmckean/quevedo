@@ -29,18 +29,19 @@ ans = e.sendEc2Rest('DescribeInstances')
 
 if (ans):
     ans_dict = xmltodict.parse(ans)
-    pprint.pprint(ans_dict)
+    #pprint.pprint(ans_dict)
     #print("len=: ",len(ans_dict["DescribeInstancesResponse"])) 
     #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"])) 
     #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"])) 
     #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][0])) 
     #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][0]["instancesSet"])) 
-    for key, value in ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][0]["instancesSet"]["item"].items() :
-        print ("key: ",key, "\n", "value: ", value, "\n")
-    for key, value in ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][1]["instancesSet"]["item"].items() :
-        print ("key: ",key, "\n", "value: ", value, "\n")
+    #for key, value in ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][0]["instancesSet"]["item"].items() :
+    #    print ("key: ",key, "\n", "value: ", value, "\n")
+    #for key, value in ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][1]["instancesSet"]["item"].items() :
+    #    print ("key: ",key, "\n", "value: ", value, "\n")
     #pprint.pprint(ans_dict["DescribeInstancesResponse"]["reservationSet"])
     ret = "# Set of instances in AWS \n"
+    ret += "# ip address" + '\t' + "public dns" + '\t' + "aws instance name \n"
     for i in range(len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"])):
         dns = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["dnsName"]
         ipAddr = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["ipAddress"]

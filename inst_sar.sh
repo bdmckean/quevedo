@@ -5,7 +5,7 @@
 # run this script on machine with HiBench installed
 # input is which test to run
 
-# this sctipt will del all log files at teh start
+# this sctipt will del all log files at the start
 # montiroes will continue writing 
 
 #!/bin/bash
