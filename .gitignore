@@ -1,6 +1,7 @@
 # Special files for this project
 aws.sh
-
+# vi files
+*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
