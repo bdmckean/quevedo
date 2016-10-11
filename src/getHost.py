@@ -20,35 +20,55 @@
  
 '''    
 
-from ec2rest import ec2RestSend
-import pprint
+from ec2restsend import ec2RestSend
 import xmltodict
+import re
+import sys
 
-e = ec2RestSend()
-ans = e.sendEc2Rest('DescribeInstances')
-
-if (ans):
-    ans_dict = xmltodict.parse(ans)
-    pprint.pprint(ans_dict)
-    #print("len=: ",len(ans_dict["DescribeInstancesResponse"])) 
-    #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"])) 
-    #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"])) 
-    #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][0])) 
-    #print("len=: ",len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][0]["instancesSet"])) 
-    for key, value in ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][0]["instancesSet"]["item"].items() :
-        print ("key: ",key, "\n", "value: ", value, "\n")
-    for key, value in ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][1]["instancesSet"]["item"].items() :
-        print ("key: ",key, "\n", "value: ", value, "\n")
-    #pprint.pprint(ans_dict["DescribeInstancesResponse"]["reservationSet"])
-    ret = "# Set of instances in AWS \n"
-    for i in range(len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"])):
-        dns = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["dnsName"]
-        ipAddr = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["ipAddress"]
-        instanceName = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["tagSet"]["item"]["value"]
-        ret += ipAddr + "\t" + dns + "\t" + "# " + instanceName + "\n"
-    print ("##----------------------------------------------------##")
-    print (ret)
-else:
-    print("Got no response")
+def getHost(match_string=None):
+    e = ec2RestSend()
+    ans = e.sendEc2Rest('DescribeInstances')
+    if (match_string):
+        m = re.compile(match_string)
 
 
+    if (ans):
+        match = False
+        ans_dict = xmltodict.parse(ans)
+        ret = "# Set of instances in AWS \n"
+        for i in range(len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"])):
+            dns = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["dnsName"]
+            ipAddr = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["ipAddress"]
+            instanceName = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["tagSet"]["item"]["value"]
+            if (match_string is None):
+                match = True
+                ret += ipAddr + "\t" + dns + "\t" + "# " + instanceName + "\n"
+            else:
+                if (m.search(instanceName)):
+                    match = True
+                    ret += ipAddr + "\t" + dns + "\t" + "# " + instanceName + "\n"
+        
+        if (match == False):
+            if match_string is None:
+                ret += "No instances were returned\n"
+            else:
+                ret += "No instances matching "+match_string+" were found\n"
+        return "##----------------------------------------------------##\n"+ret
+    else:
+        return "Got no response\n"
+
+
+
+############
+if __name__ == "__main__":
+    ans = "Error processing getHost.py"
+    if (len(sys.argv) > 2):
+        ans = "usage: getHost.py [match_string]"
+    elif (len(sys.argv) == 2):   
+        match_string = sys.argv[1]
+        ans = getHost(match_string)
+    else:
+        ans = getHost()
+
+        
+    print(ans)

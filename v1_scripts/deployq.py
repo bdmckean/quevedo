@@ -22,7 +22,7 @@
  
 '''
 
-## parse input for string
+## parse input for string and keyfile
 
 
 ## get list of AWS hosts for account
