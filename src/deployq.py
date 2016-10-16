@@ -3,22 +3,21 @@
 # Coptyright 2016 (c) Brian McKean
 
 '''
-    File name: instprobes.py
+    File name: delpoy.py
     Author: Brian McKean
-    Date created: 08/31/2016
-    Date last modified: 09/02/2016
+    Date created: 10/12/2016
+    Date last modified: 10/12/20166
     Python Version: 3.5
 
 
-    Gets a list of IPs and dns names for a set of ec2 instances
-
     input: a string that the program will use to match instance names on aws
+    input: a keyfile for accessing AWS
 
     output: probe software is installed on amazon instances
             list of machines & ip addresses where monitor SW is installed
-    dependencies:
+
+dependencies:
             uses getHosts.py
-            uses aws.py
  
 '''
 from gethost import getHost
@@ -29,6 +28,10 @@ import sys
 # fake for now
 instance_string = "aws"
 key_file = "/Users/brianmckean/.ssh/quevedo-kp1.pem"
+## FOr now need to specify user id for ssh
+## Need to specify command for packacge install
+login = "ubuntu"
+package_mgr = "apt-get"
 
 
 ## get list of AWS hosts for account
@@ -37,32 +40,23 @@ hosts = getHost()
 hosts = hosts.splitlines()
 for line in hosts:
     line_elements = line.split()
-    print(line, line_elements)
+    #print(line, line_elements)
     if '#' in line_elements[0]:
         continue
     instance_list.append(line_elements[0]) 
 
 ## from list find instance names matching string
-
-
-## from this list ssh into machines using IP address
-##  Install monitor software
-
-print(instance_list)
-## FIXME -- change this bash script to python
-cmd =  "yum -y install sysstat"
-print(instance_list)
+#print(instance_list)
+cmd =  package_mgr+"install sysstat"
 for instance in instance_list:
-    # First find package installer -- either yum or apt-get
-    # Then find distro
-    # Then intsall syststat for the appropriate :w
-
+    ## from this list ssh into machines using IP address
+    ##  Install monitor software
     print("Installing sar on {}".format(instance))
-    cmd_string = "ssh -t -i {} ec2-user@{} {}".format(key_file, instance, cmd)
+    cmd_string = "ssh -t -i {} {}@{} {}".format(key_file, login, instance, cmd)
     cmd_string = ["ssh","-t","-o","StrictHostKeyChecking=no",
                        "-i",key_file,"ec2user@{}".format(instance),
                        "sudo","yum","install","sysstat"]
-    print(cmd_string)
+    #print(cmd_string)
     ssh = subprocess.Popen(["ssh","-t","-o","StrictHostKeyChecking=no",
                        "-i",key_file,"ec2-user@{}".format(instance),
                        "sudo","yum","install","sysstat"],

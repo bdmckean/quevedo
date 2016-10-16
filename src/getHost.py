@@ -21,6 +21,7 @@
 '''    
 
 from ec2restsend import ec2RestSend
+import pprint
 import xmltodict
 import re
 import sys
@@ -35,6 +36,8 @@ def getHost(match_string=None):
     if (ans):
         match = False
         ans_dict = xmltodict.parse(ans)
+        # Uncomment print if you want to see all data transferred
+        #pprint.pprint(ans_dict)
         ret = "# Set of instances in AWS \n"
         for i in range(len(ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"])):
             dns = ans_dict["DescribeInstancesResponse"]["reservationSet"]["item"][i]["instancesSet"]["item"]["dnsName"]
