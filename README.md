@@ -1,4 +1,8 @@
 # This project does an analysis of the resource usage of the nodes on AWS cluster
+
+
+## [Project Report for early work](quevedo_background_report.pdf)
+
 ## Project Goals
 This project is a collection of scripts and tools to monitor the resource usage in the data nodes and name nodes in a hadoop cluster while running a map reduce job. In addition there are scripts for automated extraction and collation of reports.  Once the entire deployment, intrumentation, extraction and collation process is complete I will add an automated analysis of the results so that for a given tyoe of workload the optimal cluster configuration in terms of type of nodes and number of nodes can be recommended.
 
@@ -7,8 +11,9 @@ This project is a collection of scripts and tools to monitor the resource usage 
 
 In this project report I instrumented and examined individual server resource usage in a haddop cluster with 2,5 and 10 nodes. I gathered data on how resources where used and analyzes optimal cluster configuration for each job.
 
-This was a project I did for a graduate course in distributed computing I took at the University of Colorado
-[project report](quevedo_background_report.pdf)
+This was a project I did for a graduate course in distributed computing I took at the University of Colorado:
+
+####[project report](quevedo_background_report.pdf)
 
 The results showed an optimal price / performance occuring at five nodes.
 
