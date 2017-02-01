@@ -8,7 +8,7 @@ This project is a collection of scripts and tools to monitor the resource usage 
 In this project report I instrumented and examined individual server resource usage in a haddop cluster with 2,5 and 10 nodes. I gathered data on how resources where used and analyzes optimal cluster configuration for each job.
 
 This was a project I did for a graduate course in distributed computing I took at the University of Colorado
-[a relative link](other_file.md)
+[project report](quevedo_background_report.pdf)
 
 The results showed an optimal price / performance occuring at five nodes.
 
